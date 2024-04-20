@@ -1,0 +1,276 @@
+(footprint "L_Wuerth_HCI-1050"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "Inductor, Wuerth Elektronik, Wuerth_HCI-1050, 10.2mmx10.2mm")
+	(tags "inductor Wuerth hci smd")
+	(property "Reference" "L1"
+		(at 6.175 -4.7 -90)
+		(layer "F.SilkS")
+		(uuid "3900a308-657d-4f29-b0a0-d541f8f2dcc7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "1.2u"
+		(at 0 6.6 180)
+		(layer "F.Fab")
+		(uuid "9326e309-6494-4749-8c70-69332e6f1b5e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" "Inductor_SMD2:L_Wuerth_HCI-1050"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "19ad57d2-ae40-468e-9b96-ff8ae96aa8e1")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" "https://datasheet.lcsc.com/lcsc/2304140030_KOHERelec-FHC1050-1R2M_C2761915.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2d279136-f21e-46f1-9200-5f8817551e37")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" "Inductor, Shielded Drum Core, Superflux, 1.2 uH, 20 A, 0.00178 ohm, SMD"
+		(at 60.65 87.725 -90)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "233c4b6a-1c61-4edd-8108-0088f6389d72")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "LCSC" "C2761915"
+		(at 0 0 -90)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "6667b595-b6a7-476f-8b2d-d264bebd88d7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC_ext" "1"
+		(at 0 0 -90)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ea57fa8a-eb4a-4f18-8428-7e054e2a66fc")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Wurth Elektronik"
+		(at 0 0 -90)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "10a29c27-7699-495e-ab34-597dd08df3a5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -5.2 -5.2)
+		(end 5.2 -5.2)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b4e0a9ed-eddc-4c34-b239-4555d735002b")
+	)
+	(fp_line
+		(start -5.2 -2.4)
+		(end -5.2 -5.2)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "650b936a-c26d-490c-ba81-a3ef0b596275")
+	)
+	(fp_line
+		(start -5.2 2.4)
+		(end -5.2 5.2)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "80c18053-ce7b-4a44-b2ea-4a61eeb44394")
+	)
+	(fp_line
+		(start -5.2 5.2)
+		(end 5.2 5.2)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "ad60eded-2434-436b-be9b-32e403015f93")
+	)
+	(fp_line
+		(start 5.2 -5.2)
+		(end 5.2 -2.4)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "fcaa0691-bf43-4c55-880c-52d9589fb559")
+	)
+	(fp_line
+		(start 5.2 5.2)
+		(end 5.2 2.4)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "5cfee6b8-5fd1-4559-a54a-63ac4f9446c6")
+	)
+	(fp_line
+		(start -6 -5.35)
+		(end -6 5.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "ed5a5070-e151-4c64-9ea2-2551fc5afe89")
+	)
+	(fp_line
+		(start -6 5.35)
+		(end 6 5.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "bfe5ed97-8af4-4af1-93e9-c11712e324b4")
+	)
+	(fp_line
+		(start 6 -5.35)
+		(end -6 -5.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "40f9e436-2d6e-4a93-a979-c89da676d20c")
+	)
+	(fp_line
+		(start 6 5.35)
+		(end 6 -5.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "66ec0188-8007-4f66-a131-668a0ba46b21")
+	)
+	(fp_line
+		(start -5.1 -5.1)
+		(end -5.1 5.1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b0678ac1-609b-4114-b21a-d48dddc9a438")
+	)
+	(fp_line
+		(start -5.1 5.1)
+		(end 5.1 5.1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d4209448-c94d-4b6f-99e4-478f66485c25")
+	)
+	(fp_line
+		(start 5.1 -5.1)
+		(end -5.1 -5.1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "20b0dc42-34c4-47ff-86cb-7c26e5db851d")
+	)
+	(fp_line
+		(start 5.1 5.1)
+		(end 5.1 -5.1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "9ddc9c51-c8bc-451c-a84d-64323d15e6f4")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(uuid "a6d765da-9e24-48de-910f-b98b2cc893e5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -3.825 0)
+		(size 3.85 4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "3527a3e5-d884-42e9-a238-d6b7dc3101ec")
+	)
+	(pad "2" smd rect
+		(at 3.825 0)
+		(size 3.85 4)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "79284192-5037-4247-ab02-31e6ee930e67")
+	)
+	(model "/Users/jep/my Kicad libraries/JEP.3dshapes/WE-HCI_1050_744325 (rev1).stp"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 90)
+		)
+	)
+)

@@ -1,0 +1,400 @@
+(footprint "SOP65P600X170-25N"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "PG-SSOP-24")
+	(tags "Integrated Circuit")
+	(property "Reference" "U14"
+		(at 0.3 -5.6 0)
+		(layer "F.SilkS")
+		(uuid "5f0180af-6764-45fe-818c-fb78757a7bb6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "TLE94112ELXUMA1"
+		(at 0 0 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "d1f0cf68-8e28-49f9-882c-b67fc42386ad")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "793b6dea-0418-43d3-8468-a14afb4eb0b1")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" "https://componentsearchengine.com/Datasheets/2/TLE94112ELXUMA1.pdf"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4efaab10-84b2-4936-9fe1-5f17127aab98")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" "TLE94110 =  C2984889, TLE94108 = C7602527 "
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c400fd34-fcfc-4dfb-b0ab-99ebb6c61f94")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Height" "1.7"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b95e9ea3-57c0-46d2-8da3-b139069c391c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC" "C3655680"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "643436a1-b49c-4a91-866d-08374d458fe5")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC_ext" "1"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ad92d63c-e1d1-41bc-9c94-c03727830d1c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer_Name" "Infineon"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "fd3800ba-4b00-439e-992e-9d74ceb256cb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer_Part_Number" "TLE94112ELXUMA1"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e18f17ab-436f-4ae4-8225-14959910f48b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -3.475 -4.15)
+		(end -1.95 -4.15)
+		(stroke
+			(width 0.2)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "909034ed-cff5-46a9-bc71-b69be1fb736d")
+	)
+	(fp_line
+		(start -3.725 -4.625)
+		(end 3.725 -4.625)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8dc05504-450b-494b-8ba8-292930b12557")
+	)
+	(fp_line
+		(start -3.725 4.625)
+		(end -3.725 -4.625)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "99736c1d-e364-4056-9941-39bae3becf1f")
+	)
+	(fp_line
+		(start 3.725 -4.625)
+		(end 3.725 4.625)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "65fd10d5-911c-4261-b6a7-007ef4d3b6c9")
+	)
+	(fp_line
+		(start 3.725 4.625)
+		(end -3.725 4.625)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "f9de4c93-50fc-423a-ae48-af4b93614a84")
+	)
+	(fp_line
+		(start -1.95 -4.325)
+		(end 1.95 -4.325)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "156615c1-8087-48a3-b6ed-05e0950221b7")
+	)
+	(fp_line
+		(start -1.95 -3.675)
+		(end -1.3 -4.325)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "57f96f03-abac-4c78-ac85-11cb6a5a4688")
+	)
+	(fp_line
+		(start -1.95 4.325)
+		(end -1.95 -4.325)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b9f47a24-5260-4e8a-bfe2-869c890858cc")
+	)
+	(fp_line
+		(start 1.95 -4.325)
+		(end 1.95 4.325)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "563fa586-c00b-4c65-9566-011423a91c2d")
+	)
+	(fp_line
+		(start 1.95 4.325)
+		(end -1.95 4.325)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0d573d79-c1dd-4559-b7ea-533c3ecbe439")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "890bced8-b18c-4f2f-9017-ad45fdc21a72")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.254)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -2.712 -3.575 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "7e1521bb-314c-4c15-a133-fbcc11354089")
+	)
+	(pad "2" smd rect
+		(at -2.712 -2.925 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "8debf678-3ec8-4f7f-8ef5-069378fbb80c")
+	)
+	(pad "3" smd rect
+		(at -2.712 -2.275 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "30e42ec0-94a6-47b9-945d-951a107b9ce9")
+	)
+	(pad "4" smd rect
+		(at -2.712 -1.625 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "705fe421-4a8f-445e-9ba2-b36cf11fd930")
+	)
+	(pad "5" smd rect
+		(at -2.712 -0.975 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "bf32d0e8-63bf-4a83-a348-330d1fc7a4c3")
+	)
+	(pad "6" smd rect
+		(at -2.712 -0.325 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "2d2216d3-9944-46d1-9ac0-42f9b2b47103")
+	)
+	(pad "7" smd rect
+		(at -2.712 0.325 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "5b4c190d-6502-4d2e-943f-4257d070eb6b")
+	)
+	(pad "8" smd rect
+		(at -2.712 0.975 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "12800593-53b0-4d9c-a9a0-8f6b9e7a5ab3")
+	)
+	(pad "9" smd rect
+		(at -2.712 1.625 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "f8839397-5377-49be-ab4a-f07ded1d710b")
+	)
+	(pad "10" smd rect
+		(at -2.712 2.275 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "1c216797-233d-4a8c-b914-49e892615ad4")
+	)
+	(pad "11" smd rect
+		(at -2.712 2.925 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "cf872cc7-891f-4b12-b0a7-0e12086d7e45")
+	)
+	(pad "12" smd rect
+		(at -2.712 3.575 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "abd185c1-2d37-470e-b6ec-0517db7283e0")
+	)
+	(pad "13" smd rect
+		(at 2.712 3.575 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "97414491-0cd5-4b36-baf1-d8ea1c8edc65")
+	)
+	(pad "14" smd rect
+		(at 2.712 2.925 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "4a751050-4a5d-4057-963a-6578001fa0b0")
+	)
+	(pad "15" smd rect
+		(at 2.712 2.275 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "38efab8c-d6ad-4bf9-bedf-d3f3034ccdf4")
+	)
+	(pad "16" smd rect
+		(at 2.712 1.625 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "5a4a3725-0815-47d1-9e95-dcc6f211c097")
+	)
+	(pad "17" smd rect
+		(at 2.712 0.975 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "938e2cec-f49b-46a1-8ceb-1bd38cec5833")
+	)
+	(pad "18" smd rect
+		(at 2.712 0.325 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "69640378-5ea2-4aa4-9e7f-6e4fadcfd33a")
+	)
+	(pad "19" smd rect
+		(at 2.712 -0.325 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "038dc1d4-f8b3-4b61-8cb4-e8339f3f165b")
+	)
+	(pad "20" smd rect
+		(at 2.712 -0.975 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "b8129eef-4c5a-44a3-bc0b-0eea8fa2b2b4")
+	)
+	(pad "21" smd rect
+		(at 2.712 -1.625 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "fbbb5e30-8dbe-428a-97cb-46a44f2a9683")
+	)
+	(pad "22" smd rect
+		(at 2.712 -2.275 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "35d4447e-709d-4abc-800f-f55fa707bb40")
+	)
+	(pad "23" smd rect
+		(at 2.712 -2.925 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "a8b17151-2699-4140-8c12-8dc3bc00bb37")
+	)
+	(pad "24" smd rect
+		(at 2.712 -3.575 90)
+		(size 0.45 1.525)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "77c083cc-8b83-4490-9feb-dc25206a8dbd")
+	)
+	(pad "25" smd rect
+		(at 0 0)
+		(size 2.9 6.65)
+		(layers "F.Cu" "F.Paste" "F.Mask")
+		(uuid "3e757709-2924-46eb-9b61-8b121b0d55e8")
+	)
+	(model "/Users/jep/my Kicad libraries/JEP.3dshapes/TLE8088EMXUMA1.stp"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

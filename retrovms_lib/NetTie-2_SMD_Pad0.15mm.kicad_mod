@@ -1,0 +1,107 @@
+(footprint "NetTie-2_SMD_Pad0.15mm"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "Net tie, 2 pin, 0.5mm square SMD pads")
+	(tags "net tie")
+	(property "Reference" "NT2"
+		(at 0 -1.2 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "bedb2203-f4db-47ce-9cf0-4833fc648971")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "NetTie_2"
+		(at 0 1.2 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e114808f-c1e6-4770-8129-308916f8c6a3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8b594fd2-eee0-4330-b530-fcbcea2987c3")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "cb0a1233-519f-47a0-85e8-6c744bbf8144")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" "Net tie, 2 pins"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b518ee7c-9475-4a67-9776-2f750599810e")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Untitled Field" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e7340db2-e6b2-474c-bb7e-d9d403a9ce07")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr exclude_from_pos_files exclude_from_bom allow_missing_courtyard)
+	(net_tie_pad_groups "1, 2")
+	(fp_poly
+		(pts
+			(xy -0.175 -0.075) (xy 0.15 -0.075) (xy 0.15 0.075) (xy -0.175 0.075)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.Cu")
+		(uuid "7869e48a-6fee-4fad-9666-7b73958e1c6a")
+	)
+	(pad "1" smd circle
+		(at -0.175 0)
+		(size 0.15 0.15)
+		(layers "F.Cu")
+		(uuid "cf49ea9a-fdcf-41ab-b4b1-e6dbf2202d43")
+	)
+	(pad "2" smd circle
+		(at 0.15 0)
+		(size 0.149998 0.149998)
+		(layers "F.Cu")
+		(uuid "f86381a2-8bf9-4bac-a7f0-e15af526c374")
+	)
+)
