@@ -59,7 +59,10 @@ NEAR_CONN = 10.0             # parts this close in front of the connector go und
 # ---- looks ----
 BEVEL = 3.0                  # 45 degrees round the lid's top edge
 HOOD_R = 4.0                 # round the hood's edges (inside: HOOD_R - LID_T)
-LABEL = (0.5, 2.5, 3.0)      # label recess in the lid: depth, margin, corner radius
+# label recess for a 3" x 2" label (76.2 x 50.8 mm, sold as 76 x 51 mm), about
+# 0.4 mm clear all round, centred on the lid's flat between the bevel and the ramp
+LABEL_W, LABEL_H, LABEL_DEPTH, LABEL_R = 77.0, 51.6, 0.5, 3.0
+LABEL_MARGIN = 2.5           # the flat it must fit inside: this far in from the bevel and ramp
 
 # ---- fixings ----
 INSERT_D, INSERT_DEPTH = 4.0, 6.0     # M3 heat-set inserts, in the cover's posts
@@ -371,8 +374,13 @@ low = neck.common(xz_face([(-200, nb.ZMin - 1), (200, nb.ZMin - 1), (200, nb.ZMi
                            (-200, nb.ZMin + 1.0)], IN_Y1 - 1)).BoundBox
 open_face = neck.fuse(xz_face([(low.XMin, JOINT_Z - 3), (low.XMax, JOINT_Z - 3),
                                (low.XMax, nb.ZMin + 1.0), (low.XMin, nb.ZMin + 1.0)], IN_Y1 - 1)).removeSplitter()
-label_y1 = y_r0 - LID_T * (math.sqrt(2) - 1) - LABEL[1]
-lx, ly0 = OUT_X - BEVEL - LABEL[1], OUT_Y0 + BEVEL + LABEL[1]
+flat_x = OUT_X - BEVEL - LABEL_MARGIN
+flat_y0 = OUT_Y0 + BEVEL + LABEL_MARGIN
+flat_y1 = y_r0 - LID_T * (math.sqrt(2) - 1) - LABEL_MARGIN
+assert LABEL_W / 2 <= flat_x and LABEL_H <= flat_y1 - flat_y0, "the label recess doesn't fit the lid's flat"
+label_yc = (flat_y0 + flat_y1) / 2
+log("label recess %.1f x %.1f at y %.1f (the flat is %.1f x %.1f)"
+    % (LABEL_W, LABEL_H, label_yc, 2 * flat_x, flat_y1 - flat_y0))
 cuts = [through_y(open_face, IN_Y1 - 1, OUT_Y1 + 1),
         rbox(IN_X + LIP_T + FIT, IN_Y0 - LIP_T - FIT, IN_Y1 + LIP_T + FIT, CORNER_R - WALL + LIP_T + FIT,
              JOINT_Z - 1, JOINT_Z + LIP_H + FIT).cut(
@@ -380,7 +388,7 @@ cuts = [through_y(open_face, IN_Y1 - 1, OUT_Y1 + 1),
         ).cut(no_lip),
         through_y(rrect_xz(usb_x, usb_z, *USB_OPEN, OUT_Y0 - 1), OUT_Y0 - 1, IN_Y0 + reach + 1),
         through_y(rrect_xz(sd_x, sd_z, *SD_OPEN, OUT_Y0 - 1), OUT_Y0 - 1, IN_Y0 + reach + 1),
-        rbox(lx, ly0, label_y1, LABEL[2], lid_top - LABEL[0], lid_top + 1)]
+        rbox(LABEL_W / 2, label_yc - LABEL_H / 2, label_yc + LABEL_H / 2, LABEL_R, lid_top - LABEL_DEPTH, lid_top + 1)]
 for hx, hy in HOLES:                            # inserts, from below
     cuts.append(teardrop_z(hx, hy, INSERT_D / 2, TH - 1, TH + INSERT_DEPTH, -1))
 cuts += post_keepouts
@@ -473,7 +481,7 @@ for obj in doc.Objects:
 doc.saveAs(os.path.join(HERE, OUTN + "_case.FCStd"))
 json.dump(dict(low_lid_ceiling=c_low, lid_top=lid_top, hood_ceiling=c_hood, hood_top=hood_top,
                hood_half_width=[w0, w1], ramp_start_y=y_r0, mount_z=MOUNT_Z, joint_z=JOINT_Z,
-               screw_length=int(screw // 2 * 2), bevel=BEVEL, label=[2 * lx, label_y1 - ly0],
+               screw_length=int(screw // 2 * 2), bevel=BEVEL, label=[LABEL_W, LABEL_H],
                kicad_offset_on_J1=frame["kicad_offset_on_J1"]),
           open(os.path.join(B, "case.json"), "w"), indent=1)
 log("KiCad: add %s_case.step to J1, offset %s, rotation 0" % (OUTN, [round(v, 3) for v in frame["kicad_offset_on_J1"]]))

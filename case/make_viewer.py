@@ -72,7 +72,7 @@ def main():
         ("Fixing", "4 × M3 × %d up through the board into inserts in the cover" % case["screw_length"]),
         ("Low lid", "%s mm above the mount face" % fmt(case["lid_top"] - case["mount_z"])),
         ("Hood", "%s mm above the mount face" % fmt(case["hood_top"] - case["mount_z"])),
-        ("Lid", "%s mm bevel, label recess %s × %s mm" % (fmt(case["bevel"]), fmt(case["label"][0]), fmt(case["label"][1]))),
+        ("Lid", "%s mm bevel, recess for a 3″ × 2″ (76 × 51 mm) label" % fmt(case["bevel"])),
         ("Openings", "USB-C, microSD"),
         ("Print", "tray on its floor, cover on its connector end, no support"),
         ("KiCad", "rvms_mini_case.step on J1, offset %s, %s, %s" % tuple(fmt(v) for v in off)),
