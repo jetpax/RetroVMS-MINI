@@ -1,0 +1,379 @@
+<meta charset="utf-8">
+<title>RetroVMS Mini Case</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one-screen tool. Canvas fills the stage; a control rail on the right
+   (bottom sheet on phones) holds parts, explode, section, views and fit notes. */
+:root {
+  --bg: #e9ecee;        /* brushed-aluminium grey, a little blue */
+  --fg: #1c2125;
+  --muted: #5b646c;
+  --panel: #f5f7f8;
+  --line: #cfd5da;
+  --accent: #c77a12;    /* instrument-cluster amber */
+  --accent-ink: #fffaf0;
+  --base-col: #4b535a;  /* tray: graphite print */
+  --cover-col: #a9b2ba; /* cover: mid grey print */
+  --f-display: "Saira Semi Condensed", "Arial Narrow", sans-serif;
+  --f-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #15191c; --fg: #e4e8eb; --muted: #94a0a9; --panel: #1d2226; --line: #313940;
+  --accent: #e39a33; --accent-ink: #15191c; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #15191c; --fg: #e4e8eb; --muted: #94a0a9; --panel: #1d2226; --line: #313940;
+  --accent: #e39a33; --accent-ink: #15191c; color-scheme: dark; }
+
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.4 var(--f-body); overflow: hidden; }
+#app { height: 100%; display: grid; grid-template-rows: auto 1fr; }
+header { display: flex; align-items: baseline; gap: 14px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+header h1 { font: 600 21px/1 var(--f-display); margin: 0; letter-spacing: .02em; }
+header .meta { font: 12px var(--f-mono); color: var(--muted); }
+#stage { position: relative; display: grid; grid-template-columns: 1fr 300px; min-height: 0; }
+#view { position: relative; min-width: 0; min-height: 0; }
+canvas { display: block; width: 100%; height: 100%; outline: none; }
+#hint { position: absolute; left: 12px; bottom: 10px; font: 12px var(--f-mono); color: var(--muted); pointer-events: none; }
+#rail { border-left: 1px solid var(--line); background: var(--panel); overflow-y: auto; padding: 12px 14px 20px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+section h2 { font: 500 11px/1 var(--f-display); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.row { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.row + .row { margin-top: 6px; }
+label.part { display: grid; grid-template-columns: 18px 14px 1fr auto; gap: 8px; align-items: center; cursor: pointer; padding: 4px 0; }
+label.part .sw { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,.25); }
+label.part .nm { font-weight: 500; }
+label.part .tr { font: 11px var(--f-mono); color: var(--muted); }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.val { font: 12px var(--f-mono); color: var(--muted); min-width: 56px; text-align: right; font-variant-numeric: tabular-nums; }
+.btns { display: flex; flex-wrap: wrap; gap: 6px; }
+button, .seg button { font: 500 13px var(--f-body); color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+button:hover { border-color: var(--accent); }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.seg { display: inline-flex; }
+.seg button { border-radius: 0; margin-left: -1px; }
+.seg button:first-child { border-radius: 6px 0 0 6px; margin-left: 0; }
+.seg button:last-child { border-radius: 0 6px 6px 0; }
+.check { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+dl.facts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; font-size: 13px; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; font: 12px var(--f-mono); font-variant-numeric: tabular-nums; min-width: 0; overflow-wrap: anywhere; }
+button .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; box-shadow: 0 0 0 1px rgba(0,0,0,.2); }
+#sheet-toggle { display: none; }
+@media (max-width: 760px) {
+  #stage { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+  #rail { border-left: 0; border-top: 1px solid var(--line); max-height: 44vh; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
+  #rail.collapsed { max-height: 0; padding: 0; overflow: hidden; border: 0; }
+  #sheet-toggle { display: block; position: absolute; right: 12px; top: 10px; z-index: 2; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div id="app">
+  <header>
+    <h1>RetroVMS Mini Case</h1>
+    <span class="meta">__OUTER__ · rvms_mini v5.0 · __BUILT__</span>
+  </header>
+  <div id="stage">
+    <div id="view">
+      <canvas id="c" tabindex="0" aria-label="3D view of the case"></canvas>
+      <div id="hint">drag orbit · right-drag / two-finger pan · wheel zoom</div>
+      <button id="sheet-toggle" type="button" aria-label="Show or hide controls">Controls</button>
+    </div>
+    <aside id="rail">
+      <section>
+        <h2>Parts</h2>
+        <label class="part"><input type="checkbox" id="p-base" checked><span class="sw" style="background:var(--base-col)"></span><span class="nm">tray</span><span class="tr" id="t-base"></span></label>
+        <label class="part"><input type="checkbox" id="p-cover" checked><span class="sw" style="background:var(--cover-col)"></span><span class="nm">cover</span><span class="tr" id="t-cover"></span></label>
+        <label class="part" id="row-kicad"><input type="checkbox" id="p-kicad" checked><span class="sw" style="background:#1c1c1c"></span><span class="nm">KiCad board</span><span class="tr" id="t-kicad">loading…</span></label>
+      </section>
+      <section>
+        <h2>Explode</h2>
+        <div class="row"><input type="range" id="explode" min="0" max="40" step="0.5" value="0"><span class="val" id="explode-v">0 mm</span></div>
+        <div class="row" style="margin-top:8px"><span style="flex:1">Cover opacity</span><input type="range" id="opacity" min="20" max="100" step="5" value="100" style="width:120px"><span class="val" id="opacity-v">100 %</span></div>
+      </section>
+      <section>
+        <h2>Section</h2>
+        <div class="row">
+          <label class="check"><input type="checkbox" id="sec-on"> cut</label>
+          <span class="seg" role="group" aria-label="Section axis"><button type="button" data-ax="x">X</button><button type="button" data-ax="y">Y</button><button type="button" data-ax="z" class="on">Z</button></span>
+          <button type="button" id="sec-flip" title="Keep the other side">flip</button>
+        </div>
+        <div class="row"><input type="range" id="sec-pos" min="-6" max="30" step="0.1" value="4"><span class="val" id="sec-v">4.0 mm</span></div>
+      </section>
+      <section>
+        <h2>View</h2>
+        <div class="btns">
+          <button type="button" data-view="iso" class="on">Iso</button><button type="button" data-view="top">Top</button><button type="button" data-view="bottom">Bottom</button><button type="button" data-view="front">Connector end</button><button type="button" data-view="back">SMA end</button><button type="button" data-view="right">Side</button><button type="button" id="fit">Fit</button>
+        </div>
+        <div class="row" style="margin-top:8px; gap:14px">
+          <label class="check"><input type="checkbox" id="edges" checked> edges</label>
+          <label class="check"><input type="checkbox" id="grid" checked> grid</label>
+          <label class="check"><input type="checkbox" id="spin"> turntable</label>
+        </div>
+      </section>
+      <section>
+        <h2>Fit</h2>
+        <dl class="facts">__FACTS__</dl>
+      </section>
+    </aside>
+  </div>
+</div>
+
+<script id="d-base" type="application/octet-stream">__B64_BASE__</script>
+<script id="d-cover" type="application/octet-stream">__B64_COVER__</script>
+<script id="d-board-meta" type="application/json">__BOARD_META__</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script>
+(function () {
+  const META = __META__;
+  const $ = (s) => document.querySelector(s);
+  const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  // ---- binary STL -> BufferGeometry (flat shaded)
+  function parseSTL(b64) {
+    const bin = atob(b64), n = bin.length, buf = new Uint8Array(n);
+    for (let i = 0; i < n; i++) buf[i] = bin.charCodeAt(i);
+    const dv = new DataView(buf.buffer);
+    const count = dv.getUint32(80, true);
+    const pos = new Float32Array(count * 9);
+    for (let i = 0, o = 84; i < count; i++, o += 50)
+      for (let v = 0; v < 3; v++)
+        for (let k = 0; k < 3; k++)
+          pos[i * 9 + v * 3 + k] = dv.getFloat32(o + 12 + v * 12 + k * 4, true);
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    g.computeVertexNormals();
+    g.computeBoundingBox();
+    return g;
+  }
+
+  // lighting balance: exposure, key light, and room light on the case, set so
+  // the cover top renders close to its swatch colour
+  // (measured from the canvas: top #eedbab for #efdda8, walls about 25 % darker),
+  // and on the part models so their tops match KiCad's render from above
+  // (kicad-cli pcb render: terminal and lever colours within a few levels)
+  const EXPOSURE = 1.0, KEY = 0.55, ENV_CASE = 0.25, ENV_BOARD = 1.2, ENV_PARTS = 0.8;
+
+  // ---- scene
+  const canvas = $('#c');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.localClippingEnabled = true;
+  // sRGB output: CSS and KiCad colours are converted to linear on the way in
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  // Photo-style lighting: a room environment for soft all-round light on the
+  // case and board alike (no cast shadows: with the light fixed in the scene
+  // they stayed put as the view orbits). Filmic tone mapping keeps the
+  // board's silkscreen from clipping; the case, pads and part models opt out
+  // of it, since it would wash the case greys out
+  // and pale the other colours.
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = EXPOSURE;
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const roomEnv = pmrem.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+  const srgb = (c) => new THREE.Color(c).convertSRGBToLinear();
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, 1, 1, 2000);
+  camera.up.set(0, 0, 1);
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true; controls.dampingFactor = 0.1;
+  controls.screenSpacePanning = true;
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x665544, 0.1));
+  const key = new THREE.DirectionalLight(0xfff6ea, KEY); key.position.set(60, -80, 120); scene.add(key);
+  const fill = new THREE.DirectionalLight(0xe8eeff, 0.2); fill.position.set(-80, 60, 40); scene.add(fill);
+
+  const grid = new THREE.GridHelper(200, 20, 0x888888, 0x888888);
+  grid.rotation.x = Math.PI / 2; grid.position.z = __GRID_Z__; grid.material.transparent = true; grid.material.opacity = 0.25;
+  scene.add(grid);
+
+  // everything below is drawn in the case frame inside world (WORLD: an
+  // optional frame change, none for this case)
+  const WORLD = __WORLD__;
+  const world = new THREE.Group(); scene.add(world);
+  if (WORLD) {
+    world.matrixAutoUpdate = false; world.matrix.set(...WORLD.flat()); world.updateMatrixWorld(true);
+    key.position.set(-120, 70, 100); fill.position.set(80, -60, 40);    // from the board's side
+  }
+  const parts = {};
+  const order = ['base', 'cover'];
+  const colors = { base: '--base-col', cover: '--cover-col' };
+  for (const k of order) {
+    const g = parseSTL(document.getElementById('d-' + k).textContent.trim());
+    // matte printed plastic
+    const mat = new THREE.MeshStandardMaterial({ color: srgb(css(colors[k])), roughness: 0.7, metalness: 0, envMap: roomEnv, envMapIntensity: ENV_CASE, side: THREE.DoubleSide, flatShading: true, transparent: true, opacity: 1, toneMapped: false });
+    const mesh = new THREE.Mesh(g, mat);
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(g, 25), new THREE.LineBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.35 }));
+    const grp = new THREE.Group(); grp.add(mesh); grp.add(edges); world.add(grp);
+    parts[k] = { grp, mesh, edges, mat, geom: g };
+    const b = META[k].bounds;
+    $('#t-' + k).textContent = META[k].tris + ' tris · ' + (b[1][0] - b[0][0]).toFixed(1) + '×' + (b[1][1] - b[0][1]).toFixed(1) + '×' + (b[1][2] - b[0][2]).toFixed(1);
+  }
+
+  // ---- KiCad board (export_board_glb.py): the populated board as GLB, placed
+  // in the case frame by the matrix from render/board_frame.json. Fetched as a
+  // separate file after the page is up, so the case shows at once and the
+  // board follows: gzipped GLB as base64 text (the host serves text, not .glb).
+  const BOARD = JSON.parse(document.getElementById('d-board-meta').textContent);
+  const kicadGrp = new THREE.Group(); world.add(kicadGrp);
+  const kicadMats = [];
+  // drops a standard material's specular light, direct and reflected
+  const diffuseOnly = (shader) => {
+    shader.fragmentShader = shader.fragmentShader.replace('#include <aomap_fragment>',
+      'reflectedLight.directSpecular = vec3(0.0); reflectedLight.indirectSpecular = vec3(0.0);\n#include <aomap_fragment>');
+  };
+  function boardVisibility() { kicadGrp.visible = $('#p-kicad').checked; }
+  if (!BOARD) {
+    $('#row-kicad').hidden = true; $('#p-kicad').checked = false;
+  } else {
+    const m = new THREE.Matrix4(); m.set(...BOARD.matrix.flat());
+    $('#t-kicad').textContent = 'loading ' + (BOARD.bytes / 1e6).toFixed(1) + ' MB…';
+    (async () => {
+      // a script, not fetch(), so the model also loads from a file:// page
+      await new Promise((ok, fail) => {
+        const s = document.createElement('script');
+        s.src = BOARD.src; s.onload = ok;
+        s.onerror = () => fail(new Error('could not load ' + BOARD.src));
+        document.head.appendChild(s);
+      });
+      const bin = atob(window.RVMS_BOARD_B64), packed = new Uint8Array(bin.length);
+      delete window.RVMS_BOARD_B64;
+      for (let i = 0; i < bin.length; i++) packed[i] = bin.charCodeAt(i);
+      return new Response(new Blob([packed]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    })().then((buf) => new THREE.GLTFLoader().parse(buf, '', (gltf) => {
+      const root = gltf.scene;
+      root.matrixAutoUpdate = false; root.matrix.copy(m);
+      root.traverse(o => {
+        if (!o.isMesh) return;
+        for (const mt of [].concat(o.material)) {
+          if (kicadMats.includes(mt)) continue;
+          // KiCad's dark materials need more than the case's two lights: a
+          // room environment lights the board from all round
+          mt.side = THREE.DoubleSide; mt.envMap = roomEnv; mt.needsUpdate = true;
+          if (mt.name.startsWith('board:')) {
+            // the board's own layers (export_board_glb.py names them)
+            mt.envMapIntensity = ENV_BOARD;
+            // the pads, the only metal: tone mapping pales KiCad's gold
+            if (mt.metalness === 1) mt.toneMapped = false;
+            // KiCad exports the soldermask as 83 % opaque black; under the room
+            // light the FR4 behind it and its reflections turn it grey. Make it
+            // solid and reflect less, so it reads as black mask.
+            if (mt.transparent && mt.opacity < 1 && mt.color.r + mt.color.g + mt.color.b < 0.05) {
+              mt.transparent = false; mt.opacity = 1; mt.depthWrite = true; mt.envMapIntensity = 0.3;
+            }
+          } else {
+            // part models (terminals, headers, the PSU) as KiCad draws them:
+            // diffuse only and not tone mapped. Their reflections of the room's
+            // light panels washed their colours out, and ACES pales and shifts
+            // saturated colours.
+            mt.envMapIntensity = ENV_PARTS; mt.toneMapped = false; mt.onBeforeCompile = diffuseOnly;
+          }
+          kicadMats.push(mt);
+        }
+      });
+      kicadGrp.add(root);
+      $('#t-kicad').textContent = 'GLB · ' + (BOARD.bytes / 1e6).toFixed(1) + ' MB';
+      section();
+    }, (err) => { throw err; })).catch((err) => { $('#t-kicad').textContent = 'failed to load'; console.error(err); });
+  }
+  boardVisibility();
+
+  // ---- theme-aware background and edge colour
+  function applyTheme() {
+    scene.background = srgb(css('--bg'));
+    const dark = matchMedia('(prefers-color-scheme: dark)').matches && document.documentElement.dataset.theme !== 'light' || document.documentElement.dataset.theme === 'dark';
+    for (const k of order) { parts[k].edges.material.color.set(dark ? 0xffffff : 0x000000); parts[k].edges.material.opacity = dark ? 0.22 : 0.35; }
+    grid.material.color.copy(srgb(dark ? 0xaaaaaa : 0x666666));
+  }
+  applyTheme();
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+  new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  // ---- bounds and views
+  function visibleBox() {
+    const box = new THREE.Box3();
+    for (const k of order) if (parts[k].grp.visible) box.expandByObject(parts[k].grp);
+    if (kicadGrp.visible && kicadGrp.children.length) box.expandByObject(kicadGrp);
+    if (box.isEmpty()) box.set(new THREE.Vector3(-50, -30, -6), new THREE.Vector3(50, 30, 10));
+    return box;
+  }
+  function fit(dir) {
+    const box = visibleBox(), c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+    const r = Math.max(s.x, s.y, s.z) * 0.62;
+    const dist = r / Math.tan(camera.fov * Math.PI / 360) * 1.1;
+    const d = (dir || camera.position.clone().sub(controls.target)).clone().normalize();
+    camera.position.copy(c).addScaledVector(d, dist);
+    controls.target.copy(c); controls.update();
+  }
+  // case frame: +y is the connector end, z up
+  const VIEWS = WORLD
+    ? { iso: new THREE.Vector3(-1, 0.85, 0.55), top: new THREE.Vector3(-0.0001, 0, 1), bottom: new THREE.Vector3(-0.0001, 0, -1), front: new THREE.Vector3(-1, 0, 0), right: new THREE.Vector3(0, 1, 0) }
+    : { iso: new THREE.Vector3(1.05, 1.3, 0.85), top: new THREE.Vector3(0, -0.0001, 1), bottom: new THREE.Vector3(0, -0.0001, -1), front: new THREE.Vector3(0, 1, 0.12), back: new THREE.Vector3(0, -1, 0.12), right: new THREE.Vector3(1, 0, 0.12) };
+  document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-view]').forEach(x => x.classList.remove('on')); b.classList.add('on'); fit(VIEWS[b.dataset.view]);
+  }));
+  $('#fit').addEventListener('click', () => fit());
+
+  // ---- parts, explode, opacity
+  const EXPLODE = { base: 0, cover: 1, board: 0.45 };
+  function layout() {
+    const e = parseFloat($('#explode').value);
+    $('#explode-v').textContent = e.toFixed(1) + ' mm';
+    for (const k of order) parts[k].grp.position.z = e * EXPLODE[k];
+    kicadGrp.position.z = e * EXPLODE.board;
+  }
+  $('#explode').addEventListener('input', layout);
+  for (const k of order) $('#p-' + k).addEventListener('change', (ev) => { parts[k].grp.visible = ev.target.checked; });
+  $('#p-kicad').addEventListener('change', boardVisibility);
+  $('#opacity').addEventListener('input', (ev) => {
+    const o = parseInt(ev.target.value, 10); $('#opacity-v').textContent = o + ' %';
+    parts.cover.mat.opacity = o / 100; parts.cover.mat.depthWrite = o === 100;
+  });
+  $('#edges').addEventListener('change', (ev) => { for (const k of order) parts[k].edges.visible = ev.target.checked; });
+  $('#grid').addEventListener('change', (ev) => { grid.visible = ev.target.checked; });
+
+  // ---- section plane
+  const plane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 4);
+  let axis = 'z', flip = false;
+  const RANGES = __RANGES__;
+  $('#sec-pos').min = RANGES.z[0]; $('#sec-pos').max = RANGES.z[1];
+  if (WORLD) $('#sec-pos').value = (RANGES.z[0] + RANGES.z[1]) / 2;
+  function section() {
+    const on = $('#sec-on').checked, p = parseFloat($('#sec-pos').value);
+    $('#sec-v').textContent = p.toFixed(1) + ' mm';
+    const n = new THREE.Vector3(axis === 'x' ? 1 : 0, axis === 'y' ? 1 : 0, axis === 'z' ? 1 : 0);
+    if (!flip) n.negate();
+    // keep the half-space on the side of the normal; plane.constant = -n·p0
+    plane.normal.copy(n); plane.constant = -n.dot(n.clone().multiplyScalar(p).multiply(new THREE.Vector3(Math.abs(n.x), Math.abs(n.y), Math.abs(n.z))));
+    plane.constant = -(n.x * (axis === 'x' ? p : 0) + n.y * (axis === 'y' ? p : 0) + n.z * (axis === 'z' ? p : 0));
+    for (const k of order) { parts[k].mat.clippingPlanes = on ? [plane] : null; parts[k].edges.material.clippingPlanes = on ? [plane] : null; parts[k].mat.needsUpdate = true; }
+    for (const m of kicadMats) { m.clippingPlanes = on ? [plane] : null; m.needsUpdate = true; }
+  }
+  document.querySelectorAll('[data-ax]').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('[data-ax]').forEach(x => x.classList.remove('on')); b.classList.add('on');
+    axis = b.dataset.ax; const r = RANGES[axis]; $('#sec-pos').min = r[0]; $('#sec-pos').max = r[1]; $('#sec-pos').value = (r[0] + r[1]) / 2; section();
+  }));
+  $('#sec-on').addEventListener('change', section);
+  $('#sec-pos').addEventListener('input', section);
+  $('#sec-flip').addEventListener('click', () => { flip = !flip; section(); });
+
+  // ---- turntable, resize, loop
+  // off by default; paused while the view is dragged
+  let spin = $('#spin').checked, dragging = false;
+  $('#spin').addEventListener('change', (ev) => { spin = ev.target.checked; });
+  controls.addEventListener('start', () => { dragging = true; });
+  controls.addEventListener('end', () => { dragging = false; });
+  function resize() {
+    const r = canvas.parentElement.getBoundingClientRect();
+    renderer.setSize(r.width, r.height, false); camera.aspect = r.width / r.height; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(canvas.parentElement);
+  $('#sheet-toggle').addEventListener('click', () => { $('#rail').classList.toggle('collapsed'); setTimeout(resize, 50); });
+  resize(); layout(); section(); fit(VIEWS.iso);
+  (function loop(t) { requestAnimationFrame(loop); if (spin && !dragging) { const t = controls.target, v = camera.position.clone().sub(t); v.applyAxisAngle(new THREE.Vector3(0, 0, 1), 0.004); camera.position.copy(t).add(v); } controls.update(); renderer.render(scene, camera); })();
+})();
+</script>
